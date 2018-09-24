@@ -58,18 +58,21 @@ class Books extends Component {
         <Panel>
           <h5 className="panelName">Search</h5>
           <form>
+            <div className="inputName">Topic</div>
             <Input
               value={this.state.title}
               onChange={this.handleInputChange}
               name="title"
               placeholder="Title (required)"
             />
+            <div className="inputName">Start Year</div>
             <Input
               value={this.state.author}
               onChange={this.handleInputChange}
               name="author"
               placeholder="Author (required)"
             />
+            <div className="inputName">End Year</div>
             <TextArea
               value={this.state.synopsis}
               onChange={this.handleInputChange}
@@ -100,7 +103,7 @@ class Books extends Component {
               ))}
             </List>
           ) : (
-              <h3>No Results to Display</h3>
+              <h3 className="red-text center-align">No Results to Display</h3>
             )}
         </Panel>
       </div>
