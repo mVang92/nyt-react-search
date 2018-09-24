@@ -1,7 +1,9 @@
 import React from "react";
 
 export const FormBtn = props => (
-  <button {...props} style={{ float: "right", marginBottom: 10 }}>
-    {props.children}
-  </button>
+  <div className="submitBtnDiv center-align">
+    <button {...props} className="searchBtn">
+      {props.children}
+    </button>
+  </div>
 );

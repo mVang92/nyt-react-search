@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import Search from "../../components/Search";
+import Panel from "../../components/Panel";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { List, ListItem } from "../../components/List";
@@ -54,55 +54,55 @@ class Books extends Component {
 
   render() {
     return (
-      <div>
-        <Search>
-          <h5>Search</h5>
-        </Search>
-        <form>
-          <Input
-            value={this.state.title}
-            onChange={this.handleInputChange}
-            name="title"
-            placeholder="Title (required)"
-          />
-          <Input
-            value={this.state.author}
-            onChange={this.handleInputChange}
-            name="author"
-            placeholder="Author (required)"
-          />
-          <TextArea
-            value={this.state.synopsis}
-            onChange={this.handleInputChange}
-            name="synopsis"
-            placeholder="Synopsis (Optional)"
-          />
-          <FormBtn
-            disabled={!(this.state.author && this.state.title)}
-            onClick={this.handleFormSubmit}
-          >
-            Search
+      <div className="wrapper">
+        <Panel>
+          <h5 className="panelName">Search</h5>
+          <form>
+            <Input
+              value={this.state.title}
+              onChange={this.handleInputChange}
+              name="title"
+              placeholder="Title (required)"
+            />
+            <Input
+              value={this.state.author}
+              onChange={this.handleInputChange}
+              name="author"
+              placeholder="Author (required)"
+            />
+            <TextArea
+              value={this.state.synopsis}
+              onChange={this.handleInputChange}
+              name="synopsis"
+              placeholder="Synopsis (Optional)"
+            />
+            <FormBtn
+              disabled={!(this.state.author && this.state.title)}
+              onClick={this.handleFormSubmit}
+            >
+              Search
           </FormBtn>
-        </form>
-        <Search>
-          <h5>Results</h5>
-        </Search>
-        {this.state.books.length ? (
-          <List>
-            {this.state.books.map(book => (
-              <ListItem key={book._id}>
-                <Link to={"/books/" + book._id}>
-                  <strong>
-                    {book.title} by {book.author}
-                  </strong>
-                </Link>
-                <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-            <h3>No Results to Display</h3>
-          )}
+          </form>
+        </Panel>
+        <Panel>
+          <h5 className="panelName">Results</h5>
+          {this.state.books.length ? (
+            <List>
+              {this.state.books.map(book => (
+                <ListItem key={book._id}>
+                  <Link to={"/books/" + book._id}>
+                    <strong>
+                      {book.title} by {book.author}
+                    </strong>
+                  </Link>
+                  <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+              <h3>No Results to Display</h3>
+            )}
+        </Panel>
       </div>
     );
   }

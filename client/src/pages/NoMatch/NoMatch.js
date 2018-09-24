@@ -1,15 +1,15 @@
 import React from "react";
-import Search from "../../components/Search";
+import Panel from "../../components/Panel";
 
 const NoMatch = () => (
-  <Search>
+  <Panel>
     <h1>404 Page Not Found</h1>
       <h1>
         <span role="img" aria-label="Face With Rolling Eyes Emoji">
           🙄
         </span>
     </h1>
-  </Search>
+  </Panel>
 );
 
 export default NoMatch;

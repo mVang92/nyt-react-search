@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Search from "../../components/Search";
+import Panel from "../../components/Panel";
 import API from "../../utils/API";
 
 class Detail extends Component {
@@ -18,11 +18,11 @@ class Detail extends Component {
   render() {
     return (
       <div>
-        <Search>
+        <Panel>
           <h1>
             {this.state.book.title} by {this.state.book.author}
           </h1>
-        </Search>
+        </Panel>
         <article>
           <h1>Synopsis</h1>
           <p>
