@@ -4,6 +4,7 @@ import Books from "./pages/Books";
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = () => (
   <Router>
@@ -15,6 +16,7 @@ const App = () => (
         <Route exact path="/books/:id" component={Detail} />
         <Route component={NoMatch} />
       </Switch>
+      <Footer />
     </div>
   </Router>
 );

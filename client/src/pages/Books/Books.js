@@ -55,6 +55,7 @@ class Books extends Component {
   render() {
     return (
       <div className="wrapper">
+        {/* Input Panel */}
         <Panel>
           <h5 className="panelName">Search</h5>
           <form>
@@ -63,21 +64,21 @@ class Books extends Component {
               value={this.state.title}
               onChange={this.handleInputChange}
               name="title"
-              placeholder="Title (required)"
+              placeholder="Article topic (required)"
             />
             <div className="inputName">Start Year</div>
             <Input
               value={this.state.author}
               onChange={this.handleInputChange}
               name="author"
-              placeholder="Author (required)"
+              placeholder="Start Year (required)"
             />
             <div className="inputName">End Year</div>
             <TextArea
               value={this.state.synopsis}
               onChange={this.handleInputChange}
               name="synopsis"
-              placeholder="Synopsis (Optional)"
+              placeholder="End Year (required)"
             />
             <FormBtn
               disabled={!(this.state.author && this.state.title)}
@@ -87,6 +88,7 @@ class Books extends Component {
           </FormBtn>
           </form>
         </Panel>
+        {/* Search Results */}
         <Panel>
           <h5 className="panelName">Results</h5>
           {this.state.books.length ? (
@@ -105,6 +107,11 @@ class Books extends Component {
           ) : (
               <h3 className="red-text center-align">No Results to Display</h3>
             )}
+        </Panel>
+        {/* Saved Results */}
+        <Panel>
+          <h5 className="panelName">Saved Articles</h5>
+          // Our saved articles here
         </Panel>
       </div>
     );
