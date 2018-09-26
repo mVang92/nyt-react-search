@@ -1,34 +1,34 @@
 import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
 import Panel from "../../components/Panel";
+import Results from "../../components/Results";
+import Save from "../../components/Save";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, FormBtn } from "../../components/Form";
 
 class Books extends Component {
   state = {
-    books: [],
-    title: "",
-    author: "",
-    synopsis: ""
+    topic: "",
+    startYear: "",
+    endYear: "",
+    articles: [],
+    saved: []
   };
 
   componentDidMount() {
-    this.loadBooks();
+    this.loadArticles();
   }
 
-  loadBooks = () => {
+  loadArticles = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ books: res.data, topic: "", startYear: "", endYear: "" })
       )
       .catch(err => console.log(err));
   };
 
   deleteBook = id => {
     API.deleteBook(id)
-      .then(res => this.loadBooks())
+      .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
 
@@ -41,16 +41,21 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
+    if (this.state.topic && this.state.startYear && this.state.endYear) {
+      API.searchArticle(this.state.topic, this.state.startYear, this.state.endYear)
+        .then(res => {
+          this.setState({ articles: res.data.response.docs })
+          console.log(this.state.articles);
+          this.loadArticles();
+        })
         .catch(err => console.log(err));
     }
   };
+
+  handleSaveButton = event => {
+    event.preventDefault();
+    alert("save")
+  }
 
   render() {
     return (
@@ -61,27 +66,28 @@ class Books extends Component {
           <form>
             <div className="inputName">Topic</div>
             <Input
-              value={this.state.title}
+              value={this.state.topic}
               onChange={this.handleInputChange}
-              name="title"
+              name="topic"
               placeholder="Article topic (required)"
             />
             <div className="inputName">Start Year</div>
             <Input
-              value={this.state.author}
+              value={this.state.startYear}
               onChange={this.handleInputChange}
-              name="author"
+              name="startYear"
               placeholder="Start Year (required)"
             />
             <div className="inputName">End Year</div>
-            <TextArea
-              value={this.state.synopsis}
+            <Input
+              value={this.state.endYear}
               onChange={this.handleInputChange}
-              name="synopsis"
+              name="endYear"
               placeholder="End Year (required)"
             />
             <FormBtn
-              disabled={!(this.state.author && this.state.title)}
+              // Disable search button except when all fields are filled
+              disabled={!(this.state.startYear && this.state.topic && this.state.endYear)}
               onClick={this.handleFormSubmit}
             >
               Search
@@ -91,27 +97,23 @@ class Books extends Component {
         {/* Search Results */}
         <Panel>
           <h5 className="panelName">Results</h5>
-          {this.state.books.length ? (
-            <List>
-              {this.state.books.map(book => (
-                <ListItem key={book._id}>
-                  <Link to={"/books/" + book._id}>
-                    <strong>
-                      {book.title} by {book.author}
-                    </strong>
-                  </Link>
-                  <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-              <h3 className="red-text center-align">No Results to Display</h3>
-            )}
+          {this.state.articles.map(article => (
+            <Results
+              url={article.web_url}
+              title={article.headline.main}
+              date={article.pub_date}
+              key={article._id}
+              _id={article._id}
+              onChange={this.handleSaveButton}
+            />
+          ))}
         </Panel>
         {/* Saved Results */}
         <Panel>
           <h5 className="panelName">Saved Articles</h5>
-          // Our saved articles here
+          <Save
+
+          />
         </Panel>
       </div>
     );
