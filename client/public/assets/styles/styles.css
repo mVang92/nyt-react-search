@@ -78,7 +78,13 @@ textarea {
     margin-bottom: 5px;
 }
 
-.searchBtn {
+.homeBtn {
+    margin-left: 50%;
+    transform: translate(-65px, -10px);
+}
+
+.searchBtn,
+.homeBtn {
     width: 125px;
     height: 45px;
     cursor: pointer;
@@ -117,7 +123,8 @@ textarea {
     background: rgb(168, 255, 168) !important;
 }
 
-.searchBtn:hover {
+.searchBtn:hover,
+.homeBtn:hover {
     transition-duration: 0.1s;
     background: rgb(192, 192, 192) !important;
 }

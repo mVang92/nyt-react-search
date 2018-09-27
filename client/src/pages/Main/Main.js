@@ -14,12 +14,13 @@ class Main extends Component {
     saved: []
   };
 
+  // This function starts our app by calling the loadArticles function
   componentDidMount() {
     this.loadArticles();
   }
 
   loadArticles = () => {
-    API.getBooks()
+    API.getArticles()
       .then(res =>
         this.setState({ saved: res.data, topic: "", startYear: "", endYear: "" })
       )
@@ -33,12 +34,15 @@ class Main extends Component {
     });
   };
 
+  // When search button is clicked and top and years are met,
+  // call the searchArticle function within API.js file.
+  // Pass in the search criteria as parameters
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.topic && this.state.startYear && this.state.endYear) {
       API.searchArticle(this.state.topic, this.state.startYear, this.state.endYear)
         .then(res => {
-          this.setState({ articles: res.data.response.docs })
+          this.setState({ articles: res.data.response.docs });
           this.loadArticles();
         })
         .catch(err => console.log(err));
@@ -47,19 +51,21 @@ class Main extends Component {
 
   handleSaveButton = (event, id) => {
     event.preventDefault();
-    console.log(event);
-    const articleData = this.state.articles.find(article => article._id === id)
+    const articleData = this.state.articles.find(article => article._id === id);
     API.saveArticle({ articleData })
       .then((results) => {
         const filteredResults = this.state.articles.filter(article => article._id !== id)
-        console.log(filteredResults)
-        this.setState({ articles: filteredResults })
+        this.setState({ articles: filteredResults });
+        this.loadArticles();
       })
   };
 
   handleDeleteButton = (event, id) => {
     event.preventDefault();
-    alert("delete")
+    API.deleteArticle(id)
+      .then((results) => {
+        this.loadArticles();
+      })
   };
 
   render() {
