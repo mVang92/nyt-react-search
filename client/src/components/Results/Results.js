@@ -7,7 +7,7 @@ const Results = props => {
       <a href={props.url} target="_blank"><h6 id={props._id} >{props.title} </h6></a>
       <p>{date}</p>
       <span className="#">
-        <button className="saveBtn" onClick={(event) => props.handleSaveButton(event, props._id)}>Save</button>
+        <button className="saveBtn waves-effect" onClick={(event) => props.handleSaveButton(event, props._id)}>Save</button>
       </span>
     </div>
   )
