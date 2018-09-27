@@ -26,12 +26,6 @@ class Main extends Component {
       .catch(err => console.log(err));
   };
 
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadArticles())
-      .catch(err => console.log(err));
-  };
-
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -45,7 +39,6 @@ class Main extends Component {
       API.searchArticle(this.state.topic, this.state.startYear, this.state.endYear)
         .then(res => {
           this.setState({ articles: res.data.response.docs })
-          console.log(this.state.articles);
           this.loadArticles();
         })
         .catch(err => console.log(err));
@@ -55,18 +48,18 @@ class Main extends Component {
   handleSaveButton = (event, id) => {
     event.preventDefault();
     console.log(event);
-    const articleData = this.state.articles.find(article=> article._id === id)
-    API.saveArticle({articleData})
-    .then((results) => {
-      const filteredResults = this.state.articles.filter(article => article._id !== id)
-      console.log(filteredResults)
-      this.setState({articles: filteredResults, saved: articleData})
-    })
+    const articleData = this.state.articles.find(article => article._id === id)
+    API.saveArticle({ articleData })
+      .then((results) => {
+        const filteredResults = this.state.articles.filter(article => article._id !== id)
+        console.log(filteredResults)
+        this.setState({ articles: filteredResults })
+      })
   };
 
   handleDeleteButton = (event, id) => {
     event.preventDefault();
-    
+    alert("delete")
   };
 
   render() {
@@ -109,32 +102,42 @@ class Main extends Component {
         {/* Search Results */}
         <Panel>
           <h5 className="panelName">Results</h5>
-          {this.state.articles.map(article => (
-            <Results
-              url={article.web_url}
-              title={article.headline.main}
-              date={article.pub_date}
-              key={article._id}
-              _id={article._id}
-              handleSaveButton={this.handleSaveButton}
-            />
-          ))}
+          {this.state.articles.length ? (
+            <div>
+              {this.state.articles.map(article => (
+                <Results
+                  url={article.web_url}
+                  title={article.headline.main}
+                  date={article.pub_date}
+                  key={article._id}
+                  _id={article._id}
+                  handleSaveButton={this.handleSaveButton}
+                />
+              ))}
+            </div>
+          ) : (
+              <h4 className="red-text center-align">No Results to Display</h4>
+            )}
         </Panel>
         {/* Saved Results */}
         <Panel>
           <h5 className="panelName">Saved Articles</h5>
-          {console.log("this is the save ") }
-          {console.log(this.state.saved)}
-          {this.state.saved.map(saved => (
-            <Save
-              url={saved.web_url}
-              title={saved.title}
-              date={saved.pub_date}
-              key={saved._id}
-              _id={saved._id}
-              handleDeleteButton={this.handleDeleteButton}
-            />
-          ))}
+          {this.state.saved.length ? (
+            <div>
+              {this.state.saved.map(article => (
+                <Save
+                  url={article.url}
+                  title={article.title}
+                  date={article.date}
+                  key={article._id}
+                  _id={article._id}
+                  handleDeleteButton={this.handleDeleteButton}
+                />
+              ))}
+            </div>
+          ) : (
+              <h4 className="red-text center-align">No Saved Articles to Display</h4>
+            )}
         </Panel>
       </div>
     );
