@@ -5,7 +5,7 @@ import Save from "../../components/Save";
 import API from "../../utils/API";
 import { Input, FormBtn } from "../../components/Form";
 
-class Books extends Component {
+class Main extends Component {
   state = {
     topic: "",
     startYear: "",
@@ -21,7 +21,7 @@ class Books extends Component {
   loadArticles = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, topic: "", startYear: "", endYear: "" })
+        this.setState({ saved: res.data, topic: "", startYear: "", endYear: "" })
       )
       .catch(err => console.log(err));
   };
@@ -52,10 +52,22 @@ class Books extends Component {
     }
   };
 
-  handleSaveButton = event => {
+  handleSaveButton = (event, id) => {
     event.preventDefault();
-    alert("save")
-  }
+    console.log(event);
+    const articleData = this.state.articles.find(article=> article._id === id)
+    API.saveArticle({articleData})
+    .then((results) => {
+      const filteredResults = this.state.articles.filter(article => article._id !== id)
+      console.log(filteredResults)
+      this.setState({articles: filteredResults, saved: articleData})
+    })
+  };
+
+  handleDeleteButton = (event, id) => {
+    event.preventDefault();
+    
+  };
 
   render() {
     return (
@@ -104,20 +116,29 @@ class Books extends Component {
               date={article.pub_date}
               key={article._id}
               _id={article._id}
-              onChange={this.handleSaveButton}
+              handleSaveButton={this.handleSaveButton}
             />
           ))}
         </Panel>
         {/* Saved Results */}
         <Panel>
           <h5 className="panelName">Saved Articles</h5>
-          <Save
-
-          />
+          {console.log("this is the save ") }
+          {console.log(this.state.saved)}
+          {this.state.saved.map(saved => (
+            <Save
+              url={saved.web_url}
+              title={saved.title}
+              date={saved.pub_date}
+              key={saved._id}
+              _id={saved._id}
+              handleDeleteButton={this.handleDeleteButton}
+            />
+          ))}
         </Panel>
       </div>
     );
   }
 }
 
-export default Books;
+export default Main;

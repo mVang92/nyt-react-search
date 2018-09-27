@@ -80,6 +80,14 @@ textarea {
     text-align: center;
 }
 
+.results {
+    background: white;
+    border: 1px solid black;
+    border-radius: 7px;
+    margin: 5px;
+    padding: 5px;
+}
+
 footer {
     margin-top: 60px;
 }
