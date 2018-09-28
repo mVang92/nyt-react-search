@@ -13,10 +13,9 @@ export default {
   },
   // Take the title, url, and date and post them to the database to save
   saveArticle: function (articleData) {
-    console.log(articleData)
+    // console.log(articleData)
     return axios.post("/api/articles/", {
       title: articleData.articleData.headline.main,
-      author: articleData.articleData.byline.original,
       url: articleData.articleData.web_url,
       date: articleData.articleData.pub_date
     })

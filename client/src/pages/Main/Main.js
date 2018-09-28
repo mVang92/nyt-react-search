@@ -114,7 +114,6 @@ class Main extends Component {
                 <Results
                   url={article.web_url}
                   title={article.headline.main}
-                  author={article.byline.original}
                   date={article.pub_date}
                   key={article._id}
                   _id={article._id}
@@ -135,7 +134,6 @@ class Main extends Component {
                 <Save
                   url={article.url}
                   title={article.title}
-                  author={article.author}
                   date={article.date}
                   key={article._id}
                   _id={article._id}
